@@ -11,7 +11,7 @@ genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 # --- Create the model ---
 model = genai.GenerativeModel("gemini-2.5-flash")
 
-print("  Salam! Main Gemini 2.5 Flash agent hoon. 'bye' likh kar exit karein.\n")
+print(" 🤖 Salam! Main Gemini 2.5 Flash agent hoon. 'bye' likh kar exit karein.\n")
 
 # --- Chat Loop ---
 while True:
