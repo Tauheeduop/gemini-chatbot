@@ -1,0 +1,100 @@
+/* --- Deep Blue Theme Colors --- */
+:root {
+    /*--primary-bg: #1A237E;      /* Deep Indigo Blue */
+    /*--secondary-bg: #2C388E;    /* Lighter Indigo for cards/inputs */
+    /*--text-light: #E0F7FA;      /* Soft White/Light Cyan */
+    /*--accent-color: #00BCD4;    /* Aqua/Cyan for accents */
+    /*--border-color: #3F51B5;    /* Medium Blue for borders */
+    --primary-bg: #000000;      /* Pure Black Background */
+    --secondary-bg: #1A1A1A;    /* Dark Grey for cards/inputs */
+    --text-light: #FFFFFF;      /* Pure White Text */
+    --accent-color-2: #00FF00;    /* Bright Green for highlights (ya jo aap pasand karein) */
+    --accent-color: #00FFFF; /* Bright Aqua for secondary accents */
+    --border-color: #333333;    /* Dark border color */
+}
+
+/* Base Body Style */
+.deep-blue-theme {
+    background-color: var(--primary-bg);
+    color: var(--text-light);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 20px;
+    min-height: 100vh;
+}
+
+/* Container */
+.chat-container {
+    max-width: 700px;
+    margin: 0 auto;
+    padding-top: 50px;
+}
+
+/* Header */
+.chat-header {
+    text-align: center;
+    color:#fff; /*var(--accent-color); /* Aqua/Cyan color */
+    margin-bottom: 30px;
+    font-size: 2.2em;
+    font-weight: 600;
+}
+
+/* Input Form and elements */
+.input-form {
+    margin-bottom: 30px;
+}
+
+.input-group {
+    display: flex;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    overflow: hidden; /* For rounded corners on the group */
+}
+
+.chat-input {
+    flex-grow: 1;
+    padding: 12px 15px;
+    border: none;
+    background-color: var(--secondary-bg);
+    color: var(--text-light);
+    font-size: 1.05em;
+}
+
+.chat-input::placeholder {
+    color: #9FA8DA; /* Lighter shade of blue for placeholder */
+}
+
+.send-button {
+    padding: 12px 20px;
+    background-color: var(--accent-color);
+    color: var(--primary-bg); /* Dark text on bright button */
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.send-button:hover {
+    background-color: #00E5FF; /* Lighter aqua on hover */
+}
+
+/* Chat Message Card */
+.chat-message-card {
+    background-color: var(--secondary-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 18px;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+}
+
+.user-prompt-title {
+    color: var(--accent-color); /* User's text uses the aqua accent */
+    margin-bottom: 8px;
+    font-weight: 400;
+}
+
+.bot-response-text {
+    color: var(--text-light); /* Bot's reply is soft white */
+    white-space: pre-wrap; /* Preserve line breaks */
+    margin-top: 10px;
+}
