@@ -1,5 +1,8 @@
 fastapi
 uvicorn
-google-generativeai
+sqlalchemy
+mysqlclient
 python-dotenv
+google-generativeai
 jinja2
+python-multipart

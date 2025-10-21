@@ -1,3 +1,7 @@
+#ye program ek simple chat agent banata hai jo Google Gemini 2.5 Flash model ka use karta hai.
+# Currently, yeh file me used nahe karta abhi me 
+'''
+
 # agent.py
 import os
 from dotenv import load_dotenv
@@ -27,3 +31,4 @@ while True:
         print(f"Agent: {response.text}\n")
     except Exception as e:
         print(f" Error: {e}\n")
+'''
