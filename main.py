@@ -25,34 +25,6 @@ templates = Jinja2Templates(directory="templates")
 async def home(request: Request):
     return templates.TemplateResponse("index.html", {"request": request, "response": None})
 
-
-
-
-
-
-'''
-@app.post("/", response_class=HTMLResponse)
-async def chat(request: Request, user_input: str = Form(...)):
-    try:
-        response = model.generate_content(user_input)
-        reply = response.text
-    except Exception as e:
-        reply = f"Error: {e}"
-
-    # --- Save to SQLite ---
-    db = SessionLocal()
-    try:
-        chat_entry = Chat(user_input=user_input, bot_reply=reply)
-        db.add(chat_entry)
-        db.commit()
-    finally:
-        db.close()
-
-    return templates.TemplateResponse(
-        "index.html",
-        {"request": request, "response": reply, "user_input": user_input}
-    )
-'''
 @app.post("/", response_class=HTMLResponse)
 async def chat(request: Request, user_input: str = Form(...)):
     db = SessionLocal()
@@ -60,7 +32,6 @@ async def chat(request: Request, user_input: str = Form(...)):
 
     try:
         # --- Step 1: Fetch all previous chat history ---
-        # Fetching all previous entries to build context
         history_entries = db.query(Chat).order_by(Chat.created_at).all()
 
         # --- Step 2: Format the history for the Gemini API ---
