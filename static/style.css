@@ -1,10 +1,6 @@
 /* --- Deep Blue Theme Colors --- */
 :root {
-    /*--primary-bg: #1A237E;      /* Deep Indigo Blue */
-    /*--secondary-bg: #2C388E;    /* Lighter Indigo for cards/inputs */
-    /*--text-light: #E0F7FA;      /* Soft White/Light Cyan */
-    /*--accent-color: #00BCD4;    /* Aqua/Cyan for accents */
-    /*--border-color: #3F51B5;    /* Medium Blue for borders */
+    
     --primary-bg: #000000;      /* Pure Black Background */
     --secondary-bg: #1A1A1A;    /* Dark Grey for cards/inputs */
     --text-light: #FFFFFF;      /* Pure White Text */
