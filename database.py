@@ -2,14 +2,12 @@ from sqlalchemy import create_engine, Column, Integer, Text, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime
-import os
 
-# --- Absolute path for SQLite ---
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-DATABASE_URL = f"sqlite:///{os.path.join(BASE_DIR, 'chat.db')}"
+# --- Database URL for MySQL (no password) ---
+DATABASE_URL = "mysql+pymysql://root@localhost/chatdb"
 
 # --- SQLAlchemy setup ---
-engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
+engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False)
 Base = declarative_base()
 

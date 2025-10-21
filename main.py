@@ -1,76 +1,24 @@
-import os
-from fastapi import FastAPI, Request, Form
-from fastapi.responses import HTMLResponse
-from fastapi.staticfiles import StaticFiles
-from fastapi.templating import Jinja2Templates
-from dotenv import load_dotenv
-import google.generativeai as genai
-from database import SessionLocal, Chat
+from sqlalchemy import create_engine, Column, Integer, String, DateTime, Text
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
+from datetime import datetime
+import pymysql
 
-# Load environment variables
-load_dotenv()
+# ✅ MySQL connection string (localhost, no password)
+DATABASE_URL = "mysql+pymysql://root@localhost/chatbot_db"
 
-# Configure Gemini
-genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
-model = genai.GenerativeModel("gemini-2.5-flash")
+engine = create_engine(DATABASE_URL)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+Base = declarative_base()
 
-# FastAPI setup
-app = FastAPI()
+# ✅ Chat table model
+class Chat(Base):
+    __tablename__ = "chats"
 
-# Static & Templates
-app.mount("/static", StaticFiles(directory="static"), name="static")
-templates = Jinja2Templates(directory="templates")
+    id = Column(Integer, primary_key=True, index=True)
+    user_input = Column(Text)
+    bot_reply = Column(Text)
+    created_at = Column(DateTime, default=datetime.utcnow)
 
-@app.get("/", response_class=HTMLResponse)
-async def home(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request, "response": None})
-
-@app.post("/", response_class=HTMLResponse)
-async def chat(request: Request, user_input: str = Form(...)):
-    db = SessionLocal()
-    reply = ""
-
-    try:
-        # --- Step 1: Fetch all previous chat history ---
-        history_entries = db.query(Chat).order_by(Chat.created_at).all()
-
-        # --- Step 2: Format the history for the Gemini API ---
-        # The history must be a list of dictionaries with 'role' and 'parts'
-        # The 'user' role is for the user_input, 'model' for the bot_reply
-        chat_history = []
-        for entry in history_entries:
-            # Add user's turn
-            chat_history.append({"role": "user", "parts": [{"text": entry.user_input}]})
-            # Add model's turn
-            chat_history.append({"role": "model", "parts": [{"text": entry.bot_reply}]})
-
-        # --- Step 3: Append the *current* user input to the history list ---
-        # The final prompt is the *last* item in the list
-        chat_history.append({"role": "user", "parts": [{"text": user_input}]})
-
-        # --- Step 4: Call the model with the complete history ---
-        # For multi-turn conversations, use generate_content with the history list
-        response = model.generate_content(chat_history)
-        reply = response.text
-
-    except Exception as e:
-        reply = f"Error: {e}"
-        # If an error occurred, we still want to save the user input with the error message
-        # but only if a database session is open.
-        
-    finally:
-        # --- Save to SQLite (user input and bot reply/error) ---
-        try:
-            chat_entry = Chat(user_input=user_input, bot_reply=reply)
-            db.add(chat_entry)
-            db.commit()
-        except Exception as db_e:
-             # Handle any potential database save error
-             print(f"Database Save Error: {db_e}")
-        finally:
-            db.close()
-
-    return templates.TemplateResponse(
-        "index.html",
-        {"request": request, "response": reply, "user_input": user_input}
-    )
+# ✅ Create tables
+Base.metadata.create_all(bind=engine)
